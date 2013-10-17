@@ -1,61 +1,46 @@
 <!DOCTYPE html>
 <html>
-        <title>&nbsp;</title>
-        <head>
-                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <title>Device Properties Example</title>
 
-                <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-                <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-                <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-                <script type="text/javascript" charset="utf-8" src="r/cordova.js"></script>
-        </head>
-        <body>
-                <!-- Start of first page I -->
-                <div data-role="page" id="page1">
-                        <!-- Header -->
-                        <div data-role="header">
-                                <h1>Popup 2</h1>
-                        </div>
-                        
-                        <!-- Content    -->
-                        <div data-role="content" id="searchForm">
-                        	some content
-                        	
-                			<a href="popup.html" class="btn large" style="float:left;">Previous page</a>
-                        </div>
-                        <!-- /content -->
-                        
-                        <!-- footer -->
-                        <div data-role="footer">
-                                <h4>&copy; 2013</h4>
-                        </div>
-                        <!-- /footer -->
-                </div>
-                <!-- /page -->
-        </body>
-</html>
-<script>
-        document.addEventListener("deviceready", onDeviceReady, false);
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
 
-        function onDeviceReady() {
-                document.addEventListener("pause", onPause, false);
-                document.addEventListener("resume", onResume, false);
-                alert("Device is Ready");
+    // Wait for device API libraries to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
 
-        }
+    // device APIs are available
+    //
+    function onDeviceReady() {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    }
 
+    // onSuccess Geolocation
+    //
+    function onSuccess(position) {
+        var element = document.getElementById('geolocation');
+        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+                            'Longitude: '          + position.coords.longitude             + '<br />' +
+                            'Altitude: '           + position.coords.altitude              + '<br />' +
+                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
+                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+                            'Heading: '            + position.coords.heading               + '<br />' +
+                            'Speed: '              + position.coords.speed                 + '<br />' +
+                            'Timestamp: '          + position.timestamp                    + '<br />';
+    }
 
-//What to do when paused
-function onPause(){
-        
-        alert("paused!");
-}
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
 
-//What to do when resumed
-function onResume()
-{
-        
-        alert("resume");
-}
-</script>
+    </script>
+  </head>
+  <body>
+    <p id="geolocation">Finding geolocation...</p>
+    <a href="popup.html" class="btn large" style="float:left;">Previous page</a>
+  </body>
+</html>		
