@@ -1,88 +1,45 @@
 <!DOCTYPE html>
 <html>
-        <title>&nbsp;</title>
-        <head>
-                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <title>Device Properties Example</title>
 
-                <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-                <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-                <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-                <script type="text/javascript" charset="utf-8" src="r/cordova.js"></script>
-        </head>
-        <body>
-                <!-- Start of first page I -->
-                <div data-role="page" id="page1">
-                        <!-- Header -->
-                        <div data-role="header">
-                                <h1>Template 1</h1>
-                        </div>
-                        
-                        <!-- Content    -->
-                        <div data-role="content" id="searchForm">
-                        	<input type="text" name="searchField" id="searchField" />
-                        	<button>search</button>
-                        	<div id="geolocation">geolocation</div>
-                        
-                			<a href="popup.html" class="btn large" style="float:right;">Next page</a>
-                        </div>
-                        <!-- /content -->
-                        
-                        <!-- footer -->
-                        <div data-role="footer">
-                            <h4>&copy; 2013</h4>
-                        </div>
-                        <!-- /footer -->
-                </div>
-                <!-- /page -->
-        </body>
-</html>
-<script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Wait for device API libraries to load
+    //
     document.addEventListener("deviceready", onDeviceReady, false);
 
+    // device APIs are available
+    //
     function onDeviceReady() {
-            document.addEventListener("pause", onPause, false);
-            document.addEventListener("resume", onResume, false);
-            //alert("Device is Ready");
-			
-			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
     }
-	
-	//What to do when paused
-	function onPause(){
-		alert("paused!");
-	}
 
-	//What to do when resumed
-	function onResume()
-	{
-		alert("resume");
-	}
+    // onSuccess Geolocation
+    //
+    function onSuccess(position) {
+        var element = document.getElementById('geolocation');
+        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+                            'Longitude: '          + position.coords.longitude             + '<br />' +
+                            'Altitude: '           + position.coords.altitude              + '<br />' +
+                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
+                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+                            'Heading: '            + position.coords.heading               + '<br />' +
+                            'Speed: '              + position.coords.speed                 + '<br />' +
+                            'Timestamp: '          + position.timestamp                    + '<br />';
+    }
 
-	// onSuccess Callback
-	// This method accepts a Position object, which contains the
-	// current GPS coordinates
-	//
-	var onSuccess = function(position) {
-	    coordData = 'Latitude: '          + position.coords.latitude          + '\n' +
-	          'Longitude: '         + position.coords.longitude         + '\n' +
-	          'Altitude: '          + position.coords.altitude          + '\n' +
-	          'Accuracy: '          + position.coords.accuracy          + '\n' +
-	          'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-	          'Heading: '           + position.coords.heading           + '\n' +
-	          'Speed: '             + position.coords.speed             + '\n' +
-	          'Timestamp: '         + position.timestamp                + '\n';
-	    
-	    var element = document.getElementById('geolocation');
-	    element.innerHTML = coordData;
-	    alert(coordData);
-	};
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
 
-	// onError Callback receives a PositionError object
-	//
-	function onError(error) {
-	    alert('code: '    + error.code    + '\n' +
-	          'message: ' + error.message + '\n');
-	}
-
-</script>
+    </script>
+  </head>
+  <body>
+    <p id="geolocation">Finding geolocation...</p>
+  </body>
+</html>
